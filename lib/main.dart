@@ -1,6 +1,7 @@
 import 'package:connectivity_wrapper/connectivity_wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:loomi_flutter_boilerplate/src/presentation/views/splash/splash_screen.dart';
+import 'package:loomi_flutter_boilerplate/src/screens/auth/login_screen.dart';
 import 'src/utils/custom_colors.dart';
 import 'src/utils/routes.dart';
 import 'src/utils/setups/setup_flavors.dart';
@@ -22,11 +23,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ConnectivityAppWrapper(
       app: MaterialApp(
-        title: 'Flutter Demo',
+        title: 'Só Tintas',
         theme: ThemeData(
-          primaryColor: CustomColors.primary,
+          primaryColor: CustomColors.brandPurple,
         ),
-        home: const SplashScreen(),
+        home: const LoginScreen(),
         routes: routes,
         builder: (buildContext, widget) {
           return ConnectivityWidgetWrapper(
