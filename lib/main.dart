@@ -1,7 +1,7 @@
 import 'package:connectivity_wrapper/connectivity_wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:loomi_flutter_boilerplate/src/presentation/views/splash/splash_screen.dart';
-import 'package:loomi_flutter_boilerplate/src/screens/auth/login_screen.dart';
+import 'package:loomi_flutter_boilerplate/src/presentation/views/auth/login_screen.dart';
 import 'src/utils/custom_colors.dart';
 import 'src/utils/routes.dart';
 import 'src/utils/setups/setup_flavors.dart';
@@ -19,6 +19,7 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return ConnectivityAppWrapper(
@@ -27,7 +28,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primaryColor: CustomColors.brandPurple,
         ),
-        home: const LoginScreen(),
+        home: const SplashScreen(),
         routes: routes,
         builder: (buildContext, widget) {
           return ConnectivityWidgetWrapper(

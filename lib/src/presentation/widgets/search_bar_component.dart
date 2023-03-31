@@ -105,7 +105,7 @@ class _SearchBarComponentState extends State<SearchBarComponent> {
       ),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
-        color: CustomColors.grey,
+        color: CustomColors.white,
       ),
     );
   }

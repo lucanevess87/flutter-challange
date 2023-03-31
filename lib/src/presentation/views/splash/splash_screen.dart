@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:loomi_flutter_boilerplate/src/presentation/views/example_screen.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:loomi_flutter_boilerplate/src/presentation/views/auth/login_screen.dart';
 import 'package:loomi_flutter_boilerplate/src/utils/custom_colors.dart';
 import 'package:loomi_flutter_boilerplate/src/utils/fonts.dart';
 import '../../../utils/authentication.dart';
@@ -29,13 +31,11 @@ class _SplashScreenState extends State<SplashScreen> {
           Navigator.pushNamed(context, ExampleScreen.routeName);
           removeNativeSplash();
         } else {
-          //Navigator.pushNamed(context, <YOUR-AUTH-SCREEN>.routeName); //TODO
-          Navigator.pushNamed(context, ExampleScreen.routeName);
+          Navigator.pushNamed(context, LoginScreen.routeName);
           removeNativeSplash();
         }
       } catch (e) {
-        //Navigator.pushNamed(context, <YOUR-AUTH-SCREEN>.routeName); //TODO
-        Navigator.pushNamed(context, ExampleScreen.routeName);
+        Navigator.pushNamed(context, LoginScreen.routeName);
         removeNativeSplash();
       }
     });
@@ -46,17 +46,15 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        color: CustomColors.grey,
+        color: CustomColors.brandPurple,
         width: double.infinity,
         height: double.infinity,
-        //TODO: YOUR SPLASH SCREEN IMAGE HERE. IT WILL BE BEHIND THE NATIVE, IN CASE IT ENDS WITH PROBLEM, TO HAVE SOMETHING TO SHOW
-        child: Center(
-          child: Text(
-            "SPLASH SCREEN",
-            style: Fonts.headline1.copyWith(
-              color: CustomColors.black,
-            ),
-          ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SvgPicture.asset("assets/vectors/bucket_and_paint.svg"),
+          ],
         ),
       ),
     );
