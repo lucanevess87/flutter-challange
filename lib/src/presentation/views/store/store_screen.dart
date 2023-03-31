@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:loomi_flutter_boilerplate/src/utils/custom_colors.dart';
-import 'package:loomi_flutter_boilerplate/src/utils/fonts.dart';
+import 'package:get_it/get_it.dart';
+import 'package:loomi_flutter_boilerplate/src/presentation/stores/marketplace_store.dart';
+import 'package:loomi_flutter_boilerplate/src/presentation/views/store/components/bottom_navbar.dart';
+import 'package:loomi_flutter_boilerplate/src/presentation/views/store/components/home_store.dart';
+import 'package:loomi_flutter_boilerplate/src/presentation/views/store/components/product_detail.dart';
 
 class StoreScreen extends StatefulWidget {
   const StoreScreen({super.key});
@@ -13,54 +16,30 @@ class StoreScreen extends StatefulWidget {
 }
 
 class _StoreScreenState extends State<StoreScreen> {
+  final MarketPlaceStore _marketplaceStore = GetIt.I.get<MarketPlaceStore>();
+  final PageController _pageController = PageController();
+
   @override
   Widget build(BuildContext context) {
     return Observer(
       builder: (context) {
         return Scaffold(
-          bottomNavigationBar: BottomNavigationBar(
-            currentIndex: 0,
-            items: const [
-              BottomNavigationBarItem(icon: Icon(Icons.person), label: "Loja"),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.shopping_basket), label: "Carrinho"),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.person), label: "Perfil"),
+          bottomNavigationBar: BottomNavbar(pageController: _pageController),
+          body: PageView(
+            controller: _pageController,
+            children: [
+              _marketplaceStore.defaultView
+                  ? const HomeStore()
+                  : ProductDetail(id: _marketplaceStore.selectedProductId),
+              Container(
+                  width: double.infinity,
+                  height: double.infinity,
+                  color: Colors.green),
+              Container(
+                  width: double.infinity,
+                  height: double.infinity,
+                  color: Colors.blue)
             ],
-          ),
-          body: GestureDetector(
-            onTap: () {
-              FocusScope.of(context).unfocus();
-            },
-            child: SafeArea(
-              child: SingleChildScrollView(
-                child: Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height,
-                  decoration: BoxDecoration(
-                    gradient: RadialGradient(
-                      colors: [CustomColors.darkPurple, CustomColors.lightGrey],
-                      center: Alignment.center,
-                      radius: 0.7,
-                    ),
-                  ),
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(10),
-                        child: Text(
-                          "Opções de tintas",
-                          style: Fonts.headline3.copyWith(
-                            color: CustomColors.black,
-                          ),
-                        ),
-                      ),
-                      Padding(padding: const EdgeInsets.symmetric(vertical: 10))
-                    ],
-                  ),
-                ),
-              ),
-            ),
           ),
         );
       },
