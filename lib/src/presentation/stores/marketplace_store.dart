@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:loomi_flutter_boilerplate/src/presentation/views/store/components/product.dart';
+import 'package:loomi_flutter_boilerplate/src/presentation/views/store/components/home/productsView/product.dart';
 import 'package:mobx/mobx.dart';
 part 'marketplace_store.g.dart';
 

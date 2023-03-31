@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:loomi_flutter_boilerplate/src/presentation/stores/marketplace_store.dart';
-import 'package:loomi_flutter_boilerplate/src/presentation/views/store/components/product.dart';
+import 'package:loomi_flutter_boilerplate/src/presentation/views/store/components/home/productsView/product.dart';
+import 'package:loomi_flutter_boilerplate/src/presentation/widgets/search_bar_component.dart';
 import 'package:loomi_flutter_boilerplate/src/utils/custom_colors.dart';
 import 'package:loomi_flutter_boilerplate/src/utils/fonts.dart';
 
@@ -14,6 +15,7 @@ class HomeStore extends StatefulWidget {
 
 class _HomeStoreState extends State<HomeStore> {
   final MarketPlaceStore _marketplaceStore = GetIt.I.get<MarketPlaceStore>();
+  bool isOnlyFree = false;
 
   @override
   Widget build(BuildContext context) {
@@ -47,6 +49,43 @@ class _HomeStoreState extends State<HomeStore> {
                   ),
                 ),
               ),
+              Padding(
+                padding: const EdgeInsets.only(left: 12, right: 12, top: 12),
+                child: SearchBarComponent(
+                  hintText: "Buscar...",
+                  onChanged: (value) {},
+                  verticalPadding: 4,
+                ),
+              ),
+              Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          Switch(
+                            value: isOnlyFree,
+                            onChanged: (value) {
+                              setState(() {
+                                isOnlyFree = value;
+                              });
+                            },
+                            activeColor: CustomColors.brandPurple,
+                          ),
+                          Text("Apenas entrega grátis")
+                        ],
+                      ),
+                      Text(
+                        "100 resultados",
+                        style: Fonts.headline6.copyWith(
+                          color: CustomColors.grey.withOpacity(0.6),
+                        ),
+                      )
+                    ],
+                  )),
               Expanded(
                 child: ListView.builder(
                   scrollDirection: Axis.vertical,

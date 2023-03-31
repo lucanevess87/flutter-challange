@@ -4,8 +4,6 @@ import 'package:loomi_flutter_boilerplate/src/utils/custom_colors.dart';
 import 'package:loomi_flutter_boilerplate/src/utils/fonts.dart';
 import 'package:get_it/get_it.dart';
 
-import 'product_detail.dart';
-
 class Product extends StatelessWidget {
   const Product(
       {super.key,

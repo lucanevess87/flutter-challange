@@ -3,8 +3,11 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:loomi_flutter_boilerplate/src/presentation/stores/marketplace_store.dart';
 import 'package:loomi_flutter_boilerplate/src/presentation/views/store/components/bottom_navbar.dart';
-import 'package:loomi_flutter_boilerplate/src/presentation/views/store/components/home_store.dart';
-import 'package:loomi_flutter_boilerplate/src/presentation/views/store/components/product_detail.dart';
+import 'package:loomi_flutter_boilerplate/src/presentation/views/store/components/home/home_store.dart';
+import 'package:loomi_flutter_boilerplate/src/presentation/views/store/components/home/productsView/product_detail.dart';
+import 'package:loomi_flutter_boilerplate/src/presentation/views/store/components/profile/profile.dart';
+
+import 'components/cart/cart.dart';
 
 class StoreScreen extends StatefulWidget {
   const StoreScreen({super.key});
@@ -31,14 +34,8 @@ class _StoreScreenState extends State<StoreScreen> {
               _marketplaceStore.defaultView
                   ? const HomeStore()
                   : ProductDetail(id: _marketplaceStore.selectedProductId),
-              Container(
-                  width: double.infinity,
-                  height: double.infinity,
-                  color: Colors.green),
-              Container(
-                  width: double.infinity,
-                  height: double.infinity,
-                  color: Colors.blue)
+              const Cart(),
+              const Profile(),
             ],
           ),
         );
