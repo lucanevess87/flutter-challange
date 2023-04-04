@@ -1,6 +1,7 @@
 import 'dart:ffi';
-
 import 'package:flutter/material.dart';
+import 'package:loomi_flutter_boilerplate/src/external/models/cart_product_model.dart';
+import 'package:loomi_flutter_boilerplate/src/external/models/product_model.dart';
 import 'package:loomi_flutter_boilerplate/src/presentation/stores/cart_store.dart';
 import 'package:loomi_flutter_boilerplate/src/presentation/views/store/components/cart/remove_product_dialog.dart';
 import 'package:loomi_flutter_boilerplate/src/presentation/views/store/store_screen.dart';
@@ -9,19 +10,12 @@ import 'package:loomi_flutter_boilerplate/src/utils/fonts.dart';
 import 'package:get_it/get_it.dart';
 
 class CartProduct extends StatelessWidget {
-  const CartProduct(
-      {super.key,
-      required this.name,
-      required this.price,
-      required this.image,
-      required this.isFree,
-      required this.id});
+  const CartProduct({
+    super.key,
+    required this.product,
+  });
 
-  final int id;
-  final String name;
-  final double price;
-  final String image;
-  final bool isFree;
+  final ProductModel product;
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +26,7 @@ class CartProduct extends StatelessWidget {
         onTap: () {
           showDeleteDialogHelper(
             onTap: () => {
-              _cartStore.removeProduct(id),
+              _cartStore.removeProduct(product.id),
               Navigator.pushNamed(context, StoreScreen.routeName),
             },
             context: context,
@@ -52,8 +46,7 @@ class CartProduct extends StatelessWidget {
             border: Border.all(color: CustomColors.grey.withOpacity(0.4)),
           ),
           child: Row(children: [
-            Image.network(
-                "https://casatoni.vteximg.com.br/arquivos/ids/161038-1000-1000/Tinta-Latex-PVA-Suvinil-Classica-Premium-Fosco-900ml.jpg?v=637279390174000000"),
+            Image.network(product.coverImage),
             Expanded(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -71,7 +64,7 @@ class CartProduct extends StatelessWidget {
                         ),
                       ),
                       child: Text(
-                        name,
+                        product.name,
                         style: Fonts.headline5.copyWith(
                           fontWeight: FontWeight.w500,
                         ),
@@ -84,7 +77,7 @@ class CartProduct extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        isFree
+                        product.deliveryFree
                             ? Container(
                                 width: 100,
                                 height: 22,
@@ -102,7 +95,7 @@ class CartProduct extends StatelessWidget {
                               )
                             : Container(),
                         Text(
-                          "$price",
+                          product.price,
                           style: Fonts.headline5
                               .copyWith(fontWeight: FontWeight.w600),
                         ),
