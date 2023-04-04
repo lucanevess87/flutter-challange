@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:loomi_flutter_boilerplate/src/external/models/add_cart_model.dart';
+import 'package:loomi_flutter_boilerplate/src/external/models/product_model.dart';
 import 'package:loomi_flutter_boilerplate/src/presentation/stores/cart_store.dart';
 import 'package:loomi_flutter_boilerplate/src/presentation/stores/marketplace_store.dart';
 import 'package:get_it/get_it.dart';
-import 'package:loomi_flutter_boilerplate/src/presentation/views/store/components/home/productsView/product.dart';
 import 'package:loomi_flutter_boilerplate/src/utils/custom_colors.dart';
 import 'package:loomi_flutter_boilerplate/src/utils/fonts.dart';
 import 'package:flutter_svg/svg.dart';
@@ -10,7 +11,7 @@ import 'package:flutter_svg/svg.dart';
 class ProductDetail extends StatefulWidget {
   const ProductDetail({super.key, required this.id});
 
-  final int id;
+  final String id;
 
   @override
   State<ProductDetail> createState() => _ProductDetailState();
@@ -20,7 +21,7 @@ class _ProductDetailState extends State<ProductDetail> {
   final MarketPlaceStore _marketplaceStore = GetIt.I.get<MarketPlaceStore>();
   late PageController _pageController;
   late int initialPage =
-      _marketplaceStore.storeList.indexWhere((item) => item.id == widget.id);
+      _marketplaceStore.productList.indexWhere((item) => item.id == widget.id);
 
   @override
   void initState() {
@@ -85,7 +86,7 @@ class _ProductDetailState extends State<ProductDetail> {
                   },
                   controller: _pageController,
                   physics: const ClampingScrollPhysics(),
-                  itemCount: _marketplaceStore.storeList.length,
+                  itemCount: _marketplaceStore.productList.length,
                   itemBuilder: (context, index) => buildSlider(index),
                 ),
               ),
@@ -105,7 +106,7 @@ class _ProductDetailState extends State<ProductDetail> {
             value = index - page!;
             value = (value * 0.038).clamp(-1, 1);
           }
-          return Detail(product: _marketplaceStore.storeList[index]);
+          return Detail(product: _marketplaceStore.productList[index]);
         },
       );
 }
@@ -113,7 +114,7 @@ class _ProductDetailState extends State<ProductDetail> {
 class Detail extends StatelessWidget {
   const Detail({super.key, required this.product});
 
-  final Product product;
+  final ProductModel product;
 
   @override
   Widget build(BuildContext context) {
@@ -130,7 +131,7 @@ class Detail extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(
                   left: 15, right: 15, top: 30, bottom: 20),
-              child: Text(product.name, style: Fonts.headline2),
+              child: Text(product.name, style: Fonts.headline2, maxLines: 1),
             ),
             Container(
               width: 340,
@@ -141,8 +142,7 @@ class Detail extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10.0),
                 border: Border.all(color: CustomColors.grey.withOpacity(0.4)),
               ),
-              child: Image.network(
-                  "https://casatoni.vteximg.com.br/arquivos/ids/161038-1000-1000/Tinta-Latex-PVA-Suvinil-Classica-Premium-Fosco-900ml.jpg?v=637279390174000000"),
+              child: Image.network(product.coverImage),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 10),
@@ -298,7 +298,10 @@ class Detail extends StatelessWidget {
                   style: Fonts.headline4.copyWith(fontWeight: FontWeight.w500),
                 ),
                 onPressed: () {
-                  _cartStore.addProduct(product);
+                  _cartStore.addProductToCart(AddCartModel(
+                    1,
+                    product,
+                  ));
                 },
               ),
             ),

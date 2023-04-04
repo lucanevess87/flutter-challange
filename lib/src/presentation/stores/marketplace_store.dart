@@ -1,89 +1,32 @@
-import 'package:loomi_flutter_boilerplate/src/presentation/views/store/components/home/productsView/product.dart';
+import 'package:get_it/get_it.dart';
+import 'package:loomi_flutter_boilerplate/src/domain/repositories/i_marketplace_repository.dart';
+import 'package:loomi_flutter_boilerplate/src/external/models/product_model.dart';
 import 'package:mobx/mobx.dart';
 part 'marketplace_store.g.dart';
 
 class MarketPlaceStore = _MarketPlaceStoreBase with _$MarketPlaceStore;
 
-List<Product> storeListModel = [
-  const Product(
-      id: 1,
-      name: "Tinta Suvinil Criativa",
-      price: 95.00,
-      image: "",
-      isFree: true),
-  const Product(
-      id: 2,
-      name: "Tinta Iquine Criativa",
-      price: 95.00,
-      image: "",
-      isFree: true),
-  const Product(
-      id: 3,
-      name: "Tinta Iquine Classica",
-      price: 95.00,
-      image: "",
-      isFree: true),
-  const Product(
-      id: 4,
-      name: "Tinta Iquine Novidade",
-      price: 95.00,
-      image: "",
-      isFree: false),
-  const Product(
-      id: 5,
-      name: "Tinta Iquine Maravilha",
-      price: 95.00,
-      image: "",
-      isFree: false),
-  const Product(
-      id: 6,
-      name: "Tinta Iquine Branco",
-      price: 95.00,
-      image: "",
-      isFree: false),
-  const Product(
-      id: 7, name: "Tinta Iquine Gelo", price: 95.00, image: "", isFree: true),
-  const Product(
-      id: 8,
-      name: "Tinta Iquine Criativa",
-      price: 95.00,
-      image: "",
-      isFree: true),
-  const Product(
-      id: 9,
-      name: "Tinta Iquine Criativa",
-      price: 95.00,
-      image: "",
-      isFree: false),
-  const Product(
-      id: 10,
-      name: "Tinta Iquine Criativa",
-      price: 95.00,
-      image: "",
-      isFree: false),
-  const Product(
-      id: 11,
-      name: "Tinta Iquine Criativa",
-      price: 95.00,
-      image: "",
-      isFree: false),
-  const Product(
-      id: 12,
-      name: "Tinta Iquine Criativa",
-      price: 95.00,
-      image: "",
-      isFree: true),
-];
-
 abstract class _MarketPlaceStoreBase with Store {
   @observable
-  ObservableList<Product> storeList = ObservableList.of(storeListModel);
+  bool loading = false;
+
+  @observable
+  ObservableList<ProductModel> productList = ObservableList();
 
   @observable
   bool defaultView = true;
 
   @observable
-  int selectedProductId = 0;
+  bool isDeliveryFree = false;
+
+  @observable
+  String selectedProductId = "";
+
+  @observable
+  int page = 1;
+
+  @observable
+  String search = "";
 
   @action
   void changeView(bool view) {
@@ -91,7 +34,57 @@ abstract class _MarketPlaceStoreBase with Store {
   }
 
   @action
-  void setSelectedProduct(int id) {
+  void setSelectedProduct(String id) {
     selectedProductId = id;
+  }
+
+  @action
+  Future<void> setSearch(String value) async {
+    productList.clear();
+
+    loading = true;
+    var aux = await GetIt.I
+        .get<IMarketplaceRepository>()
+        .getPaginationMarketplace(page: page, search: value);
+    loading = false;
+
+    productList.addAll(aux);
+  }
+
+  @action
+  Future<void> loadMoreProducts() async {
+    loading = true;
+    var aux = await GetIt.I
+        .get<IMarketplaceRepository>()
+        .getPaginationMarketplace(page: page + 1, search: search);
+    loading = false;
+    productList.addAll(aux);
+  }
+
+  @action
+  void setPage(int requestedPage) {
+    page = requestedPage;
+  }
+
+  @action
+  filterByDeliveryStatus(bool value) {
+    if (value) {
+      isDeliveryFree = true;
+      productList.retainWhere((element) => element.deliveryFree == value);
+    } else {
+      isDeliveryFree = false;
+      productList.clear();
+      getMarketplaceProducts();
+    }
+  }
+
+  @action
+  Future<void> getMarketplaceProducts() async {
+    loading = true;
+    var aux = await GetIt.I
+        .get<IMarketplaceRepository>()
+        .getPaginationMarketplace(page: page, search: search);
+    loading = false;
+    productList.addAll(aux);
   }
 }

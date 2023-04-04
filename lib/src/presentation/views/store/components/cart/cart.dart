@@ -64,13 +64,8 @@ class _CartState extends State<Cart> with SingleTickerProviderStateMixin {
                 child: ListView.builder(
                   scrollDirection: Axis.vertical,
                   itemCount: _cartStore.cartList.length,
-                  itemBuilder: (context, index) => CartProduct(
-                    id: _cartStore.cartList[index].id,
-                    name: _cartStore.cartList[index].name,
-                    image: _cartStore.cartList[index].image,
-                    isFree: _cartStore.cartList[index].isFree,
-                    price: _cartStore.cartList[index].price,
-                  ),
+                  itemBuilder: (context, index) =>
+                      CartProduct(product: _cartStore.cartList[index]),
                 ),
               ),
               Container(

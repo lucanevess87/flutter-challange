@@ -10,19 +10,19 @@ class SetupFlavors {
 
   SetupFlavors._internal();
 
-  String baseUrl = "";
+  String baseUrl = "https://62968cc557b625860610144c.mockapi.io/";
 
   Future<void> setup() async {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     if (kIsWeb) {
-      baseUrl = "";
+      baseUrl = "https://62968cc557b625860610144c.mockapi.io/";
     } else {
       if (packageInfo.packageName.contains("homolog")) {
-        baseUrl = "";
+        baseUrl = "https://62968cc557b625860610144c.mockapi.io/";
       } else if (packageInfo.packageName.contains("staging")) {
-        baseUrl = "";
+        baseUrl = "https://62968cc557b625860610144c.mockapi.io/";
       } else {
-        baseUrl = "";
+        baseUrl = "https://62968cc557b625860610144c.mockapi.io/";
       }
     }
   }

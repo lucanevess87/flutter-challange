@@ -9,15 +9,17 @@ class Product extends StatelessWidget {
       {super.key,
       required this.name,
       required this.price,
-      required this.image,
-      required this.isFree,
-      required this.id});
+      required this.coverImage,
+      required this.deliveryFree,
+      required this.id,
+      required this.description});
 
-  final int id;
+  final String id;
   final String name;
-  final double price;
-  final String image;
-  final bool isFree;
+  final String price;
+  final String coverImage;
+  final bool deliveryFree;
+  final String description;
 
   @override
   Widget build(BuildContext context) {
@@ -40,8 +42,7 @@ class Product extends StatelessWidget {
             border: Border.all(color: CustomColors.grey.withOpacity(0.4)),
           ),
           child: Row(children: [
-            Image.network(
-                "https://casatoni.vteximg.com.br/arquivos/ids/161038-1000-1000/Tinta-Latex-PVA-Suvinil-Classica-Premium-Fosco-900ml.jpg?v=637279390174000000"),
+            Image.network(coverImage),
             Expanded(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -61,7 +62,7 @@ class Product extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text("$price", style: Fonts.headline4),
-                        isFree
+                        deliveryFree
                             ? Container(
                                 width: 100,
                                 height: 22,
